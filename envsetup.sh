@@ -1620,7 +1620,7 @@ function mka() {
             make -j `sysctl hw.ncpu|cut -d" " -f2` "$@"
             ;;
         *)
-            mk_timer schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+            _wrap_build schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
             ;;
     esac
 }
@@ -1666,10 +1666,10 @@ function get_make_command()
     fi
 }
 
-function mk_timer()
+function _wrap_build()
 {
     local start_time=$(date +"%s")
-    $@
+    "$@"
     local ret=$?
     local end_time=$(date +"%s")
     local tdiff=$(($end_time-$start_time))
@@ -1706,7 +1706,7 @@ function mk_timer()
 
 function make()
 {
-    mk_timer $(get_make_command "$@") "$@"
+    _wrap_build $(get_make_command "$@") "$@"
 }
 
 function provision()
