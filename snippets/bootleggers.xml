@@ -43,6 +43,7 @@
   <project path="packages/services/Telephony" name="packages_services_Telephony" groups="pdk-cw-fs,pdk-fs" remote="bootleggers" />
   <project path="packages/wallpapers/MusicVisualization" name="BootleggersROM/packages_wallpapers_MusicVisualization" groups="pdk-cw-fs,pdk-fs" revision="oreo" remote="github" />
   <project path="prebuilts/build-tools" name="prebuilts_build-tools" remote="bootleggers" />
+  <project path="prebuilts/clang/host/linux-x86" name="prebuilts_clang_host_linux-x86" remote="gitlab" />
   <project path="system/bt" name="android_system_bt" remote="los" />
   <project path="system/qcom" name="system_qcom" groups="pdk" remote="bootleggers" />
   <project path="system/core" name="system_core" groups="pdk" remote="bootleggers-bff" />
