@@ -760,4 +760,8 @@
     <string name="allow_signature_fake">Allow signature spoofing</string>
     <string name="allow_signature_fake_summary">Allow apps to bypass security systems by pretending to be a different app</string>
 
+    <!-- Random bootanimations -->
+    <string name="use_random_bootanimation">Randomly pick boot animation</string>
+    <string name="use_random_bootanimation_summary">Pick a random boot animation to play every reboot</string>
+
 </resources>
