@@ -769,4 +769,8 @@
     <string name="aspect_ratio_category_title">Legacy app scaling</string>
     <string name="aspect_ratio_apps_info">Applications need to be restarted after changes</string>
 
+    <!-- Random Bootanimations -->
+    <string name="random_bootanimations">Randomly select bootanimation</string>
+    <string name="random_bootanimations_summary">Randomly pick between three bootanimations to play every reboot</string>
+
 </resources>

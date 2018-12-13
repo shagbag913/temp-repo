@@ -44,20 +44,32 @@ public class MiscSettings extends SettingsPreferenceFragment implements
     private static final String KEY_ASPECT_RATIO_APPS_LIST = "aspect_ratio_apps_list";
     private static final String KEY_ASPECT_RATIO_CATEGORY = "aspect_ratio_category";
     private static final String KEY_ASPECT_RATIO_APPS_LIST_SCROLLER = "aspect_ratio_apps_list_scroller";
+    private static final String RANDOMBOOTANIMATION_PREF = "random_bootanimations_toggle";
+    private static final String RANDOMBOOTANIMATION_PERSIST_PROP = "persist.sys.random_bootanimation";
+    private static final String RANDOMBOOTANIMATION_AVAILABLE_PROP = "sys.random_bootanimation_disabled";
 
     private AppMultiSelectListPreference mAspectRatioAppsSelect;
     private ScrollAppsViewPreference mAspectRatioApps;
+    private SwitchPreference mRandomBootanimation;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
 
         addPreferencesFromResource(R.xml.bootleg_dumpster_misc);
 
         Preference DeviceExtras = findPreference(DEVICE_CATEGORY);
         if (!getResources().getBoolean(R.bool.has_device_extras)) {
             getPreferenceScreen().removePreference(DeviceExtras);
+        }
+
+        Preference RandomBootanimation = findPreference(RANDOMBOOTANIMATION_PREF);
+        String disableRandomBootanimationProp = SystemProperties.get(RANDOMBOOTANIMATION_AVAILABLE_PROP);
+        mRandomBootanimation = (SwitchPreference) findPreference(RANDOMBOOTANIMATION_PREF);
+        if (disableRandomBootanimationProp.equals("1")) {
+            mRandomBootanimation.setVisible(false);
+        } else {
+            mRandomBootanimation.setOnPreferenceChangeListener(this);
         }
 
         if (!Utils.isPackageInstalled(getActivity(), DEVICE_OMNI_PACKAGE)) {
@@ -99,6 +111,12 @@ public class MiscSettings extends SettingsPreferenceFragment implements
                 mAspectRatioApps.setValues(valueList);
             } else {
                 Settings.System.putString(getContentResolver(), Settings.System.OMNI_ASPECT_RATIO_APPS_LIST, "");
+            }
+            return true;
+        } else if (preference == mRandomBootanimation) {
+            if (objValue != null) {
+                int toggledInt = (Boolean) objValue ? 1 : 0;
+                SystemProperties.set(RANDOMBOOTANIMATION_PERSIST_PROP, String.valueOf(toggledInt));
             }
             return true;
         }

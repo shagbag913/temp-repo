@@ -104,6 +104,12 @@
         android:title="@string/misc_title">
 
     <com.bootleggers.dumpster.preferences.SystemSettingSwitchPreference
+        android:key="random_bootanimations_toggle"
+        android:title="@string/random_bootanimations"
+        android:summary="@string/random_bootanimations_summary"
+        android:defaultValue="true" />
+
+    <com.bootleggers.dumpster.preferences.SystemSettingSwitchPreference
         android:key="toast_icon"
         android:title="@string/toast_icon_title"
         android:summary="@string/toast_icon_summary"
