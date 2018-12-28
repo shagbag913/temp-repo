@@ -34,15 +34,8 @@ mkdir -p "$OUT/bootanimation"
 #   9: Moelle's Smoke Pulse: The one that got shared everywhere, that ends on a smokey background.
 #
 #####
-if [[ $SINGLE_BOOT != "false" ]] && [[ $PICK_BOOT != "false" ]]; then
-    RANDOM_BOOT="$PICK_BOOT"
-    echo "Info: bootanimation was chosen manually. The chosen one is the number $RANDOM_BOOT"
-elif [[ $PICK_BOOT != "false" ]]; then
-    RANDOM_BOOT="${PICK_BOOT// /}"
-    RANDOM_BOOT="${RANDOM_BOOT:$BUILDNUM-1:1}"
-    echo "Info: bootanimation was chosen manually. The chosen one is the number $RANDOM_BOOT"
-else
-    # make sure the RANDOM_BOOT hasn't been chosen before
+choose_random() {
+    # choose a random animation, and make sure it isn't already chosen
     BOOTANIM_NUMS="$OUT/../.bootanimation_numbers"
     RANDOM_BOOT=$(shuf -i 0-9 -n 1)
     touch $BOOTANIM_NUMS
@@ -51,6 +44,17 @@ else
     done
     echo $RANDOM_BOOT >> $BOOTANIM_NUMS
     echo "Info: bootanimation was chosen randomly. The chosen one is the number $RANDOM_BOOT"
+}
+
+if [[ $PICK_BOOT != "false" ]]; then
+    RANDOM_BOOT="$(cut -d, -f $BUILDNUM <<< $PICK_BOOT)"
+    if [[ -z $RANDOM_BOOT ]]; then
+        choose_random   # if RANDOM_BOOT is blank, pick a different animation randomly.
+    else
+        echo "Info: bootanimation was chosen manually. The chosen one is the number $RANDOM_BOOT"
+    fi
+else
+    choose_random
 fi
 
 case "$RANDOM_BOOT" in
